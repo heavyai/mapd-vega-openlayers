@@ -2,7 +2,7 @@ import {debounce} from "./utils"
 import updateVega from "./updateVega"
 const ol = require('openlayers')
 
-let map = null
+var map = null
 
 export const initMap = () => {
   // create a div element for openlayers map
@@ -36,26 +36,27 @@ export const initMap = () => {
 export const updateMap = (vegaImage) => {
 
   const vegaSource = vegaImage ? new URL(vegaImage) : ''
+  const mapProjection = map.getView().getProjection()
+  const mapExtent = map.getView().calculateExtent(map.getSize())
+
+  const vegaLayerSource = new ol.source.ImageStatic({
+    url: vegaSource,
+    projection: mapProjection,
+    imageExtent: mapExtent
+  })
 
   map.getLayers().forEach(layer => {
+
     if(layer.get('name') !== 'VegaLayer'){
       const vega_layer = new ol.layer.Image({
         name: "VegaLayer",
-        source: new ol.source.ImageStatic({
-          url: vegaSource,
-          projection: map.getView().getProjection(),
-          imageExtent: map.getView().calculateExtent(map.getSize())
-        })
+        source: vegaLayerSource
       })
+
       map.addLayer(vega_layer)
     }
     else {
-      const newSource = new ol.source.ImageStatic({
-        url: vegaSource,
-        projection: map.getView().getProjection(),
-        imageExtent: map.getView().calculateExtent(map.getSize())
-      })
-      layer.setSource(newSource)
+      layer.setSource(vegaLayerSource)
     }
   })
 }
