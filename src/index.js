@@ -1,6 +1,6 @@
 require("./styles.css")
 require('openlayers')
-require("./map.css");
+require("./styles.css");
 
 
 import {serverInfo} from './config'
@@ -21,7 +21,7 @@ getConnection(serverInfo)
   .then(status => {
     if (status && status[0] && status[0].rendering_enabled) {
       // render the vega and add it to the map
-      updateVega(map)
+      updateVega(map.getSize(), map.getView().calculateExtent(map.getSize()))
     } else {
       // no BE rendering :(
       throw Error("backend rendering is not enabled")
