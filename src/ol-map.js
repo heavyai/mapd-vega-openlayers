@@ -1,7 +1,7 @@
 import {debounce} from "./utils"
 import updateVega from "./updateVega"
 const ol = require('openlayers')
-// require('../node_modules/openlayers/css')
+require('openlayers/css/ol.css')
 require('./styles.css')
 
 var map = null
@@ -100,6 +100,7 @@ function drawShape() {
 function clearDrawShapes() {
   map.removeInteraction(draw)
   map.removeLayer(vector)
+  vector = null
   vegaSize = map.getSize()
   vegaExtent = map.getView().calculateExtent(vegaSize)
   updateVega(vegaSize, vegaExtent)

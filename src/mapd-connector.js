@@ -47,19 +47,21 @@ function saveConnectionObj(con) {
 
 async function renderVega (vegaSpec, vegaOptions = {returnTiming: true}) {
   let promise = new Promise((resolve, reject) => {
-    savedConnection.renderVega(1, JSON.stringify(vegaSpec), vegaOptions, function(error, result) {
-      if (error) {
-        reject(error.message)
-      } else {
-        console.log(`
+    if(savedConnection){
+      savedConnection.renderVega(1, JSON.stringify(vegaSpec), vegaOptions, function(error, result) {
+        if (error) {
+          reject(error.message)
+        } else {
+          console.log(`
             Execution Time: ${result.execution_time_ms}
             Render Time: ${result.render_time_ms}
             Total Time: ${result.total_time_ms}
         `)
-        var blobUrl = `data:image/png;base64,${result.image}`
-        resolve(blobUrl)
-      }
-    })
+          var blobUrl = `data:image/png;base64,${result.image}`
+          resolve(blobUrl)
+        }
+      })
+    }
   })
   let result = await promise
   return result
