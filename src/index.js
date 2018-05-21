@@ -1,6 +1,7 @@
 require("./styles.css")
 require('openlayers')
 require("./styles.css");
+require("proj4")
 
 
 import {serverInfo} from './config'
@@ -10,7 +11,7 @@ import {getConnection, getConnectionStatus, saveConnectionObj} from "./mapd-conn
 
 const map = initMap()
 
-// connect to the mapd backend
+// connect to the mapd backend and add vega layer with initial map size and extent
 getConnection(serverInfo)
   .then(con => {
     // save the connection object so we can use it later

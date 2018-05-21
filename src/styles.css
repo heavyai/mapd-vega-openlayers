@@ -10,6 +10,13 @@
     margin: 5px;
 }
 
+#projection {
+    height: 30px;
+    background-color: cadetblue;
+    color: white;
+    margin-left: 200px;
+}
+
 
 .ol-popup {
     position: absolute;
